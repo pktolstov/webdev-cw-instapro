@@ -1,5 +1,8 @@
 import { renderUploadImageComponent } from './upload-image-component.js'
 import { renderHeaderComponent } from './header-component.js'
+import { replaceSymbols } from '../helpers.js'
+import { goToPage, posts,  } from '../index.js'
+import { POSTS_PAGE } from '../routes.js'
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     const render = () => {
         let imageUrl = ''
@@ -49,11 +52,14 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
 
         document.getElementById('add-button').addEventListener('click', () => {
             onAddPostClick({
-                description: uploadDescription.value,
+                description: replaceSymbols(uploadDescription.value),
                 imageUrl: imageUrl,
+                
             })
+            goToPage(POSTS_PAGE)
         })
     }
 
     render()
+    
 }

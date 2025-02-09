@@ -13,3 +13,8 @@ export function getUserFromLocalStorage(user) {
 export function removeUserFromLocalStorage(user) {
   window.localStorage.removeItem("user");
 }
+
+export const replaceSymbols = (text) => {
+  return text
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')}
