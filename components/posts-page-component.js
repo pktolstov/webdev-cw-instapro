@@ -10,7 +10,8 @@ export function renderPostsPageComponent({ appEl }) {
      * @TODO: чтобы отформатировать дату создания поста в виде "19 минут назад"
      * можно использовать https://date-fns.org/v2.29.3/docs/formatDistanceToNow
      */
-
+    let usersPosts = posts.filter(postUserId =>  postUserId.user.id === '6421860c32e0301869fb3301')
+    console.log(usersPosts);
     let listOfPosts = 
     posts.map((post, index) => {
        return `
