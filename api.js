@@ -27,7 +27,6 @@ export function getPosts({ token }) {
 
 export function putPost(commentToApi) {
     let token = getToken()
-    // console.log(commentToApi)
     return fetch(postsHost, {
         method: 'POST',
         headers: {
@@ -39,8 +38,7 @@ export function putPost(commentToApi) {
             throw new Error('Нет авторизации')
         }
         if (response.status === 201) {
-            return response.json()
-            //throw new Error('Опубликовано')
+            return response.status
         }
         return alert('Что-то пошло не так! Проверьте запрос')
     })
@@ -48,29 +46,29 @@ export function putPost(commentToApi) {
 
 export function putLike(postId, status) {
     let token = getToken()
-    //let link = ''
-    // if (status === 'false') {
-    //     link = `${postsHost}/${postId}/like`
-    // } else {
-    //     link = `${postsHost}/${postId}/dislike`
-    // }
-    //let link = (status === 'false' ) ? `${postsHost}/${postId}/like` : `${postsHost}/${postId}/dislike`
-    //console.log(postId, status, link)
-    return fetch(`${postsHost}/${postId}/${status === false ? 'like' : 'dislike'}`, {
-        method: 'POST',
-        headers: {
-            Authorization: token,
-        },
-    }).then((response) => {
-        if (response.status === 401) {
-            throw new Error('Нет авторизации')
+    return fetch(
+        `${postsHost}/${postId}/${status === false ? 'like' : 'dislike'}`,
+        {
+            method: 'POST',
+            headers: {
+                Authorization: token,
+            },
         }
-        if (response.status === 200) {
-            return response.json()
-            //throw new Error('Опубликовано')
-        }
-        return alert('Что-то пошло не так! Проверьте запрос')
-    })
+    )
+        .then((response) => {
+            if (response.status === 401) {
+                throw new Error('Нет авторизации')
+            }
+            if (response.status === 200) {
+                return response.json()
+             
+            }
+            return alert('Что-то пошло не так! Проверьте запрос')
+        })
+        .catch((error) => {
+          alert(error)
+            return false
+        })
 }
 
 export function registerUser({ login, password, name, imageUrl }) {

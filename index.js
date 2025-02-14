@@ -20,6 +20,11 @@ export let user = getUserFromLocalStorage()
 export let page = null
 export let posts = []
 
+export function renewPosts({ data }) {
+    let indexOfPost = posts.findIndex((postId) => postId.id === data.post.id)
+    return (posts[indexOfPost] = data.post)
+}
+
 export const getToken = () => {
     const token = user ? `Bearer ${user.token}` : undefined
     return token
@@ -45,7 +50,6 @@ export const goToPage = (newPage, data) => {
         ].includes(newPage)
     ) {
         if (newPage === ADD_POSTS_PAGE) {
-            /* Если пользователь не авторизован, то отправляем его на страницу авторизации перед добавлением поста */
             page = user ? ADD_POSTS_PAGE : AUTH_PAGE
             return renderApp()
         }
@@ -67,10 +71,10 @@ export const goToPage = (newPage, data) => {
         }
 
         if (newPage === USER_POSTS_PAGE) {
-            // @@TODO: реализовать получение постов юзера из API
-            console.log('Открываю страницу пользователя: ', data.userId)
             page = USER_POSTS_PAGE
-            posts = posts.filter(postUserId =>  postUserId.user.id === data.userId)
+            posts = posts.filter(
+                (postUserId) => postUserId.user.id === data.userId
+            )
             return renderApp()
         }
 
@@ -110,17 +114,14 @@ export const renderApp = () => {
         return renderAddPostPageComponent({
             appEl,
             onAddPostClick({ description, imageUrl }) {
-                // @TODO: реализовать добавление поста в API
-                //console.log('Добавляю пост...', { description, imageUrl })
                 let commentToApi = {
                     description: description,
                     imageUrl: imageUrl,
                 }
-                console.log(commentToApi)
-             
 
-                putPost(commentToApi)
-                goToPage(POSTS_PAGE)
+                putPost(commentToApi).then((resultSatus) => {
+                    goToPage(POSTS_PAGE)
+                })
             },
         })
     }
@@ -132,11 +133,9 @@ export const renderApp = () => {
     }
 
     if (page === USER_POSTS_PAGE) {
-        // @TODO: реализовать страницу с фотографиями отдельного пользвателя
-        //appEl.innerHTML = 'Здесь будет страница фотографий пользователя'
         return renderPostsPageComponent({
-          appEl,
-      })
+            appEl,
+        })
     }
 }
 

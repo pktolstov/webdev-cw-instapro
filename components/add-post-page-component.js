@@ -1,12 +1,11 @@
 import { renderUploadImageComponent } from './upload-image-component.js'
 import { renderHeaderComponent } from './header-component.js'
 import { replaceSymbols } from '../helpers.js'
-import { goToPage, posts,  } from '../index.js'
+import { goToPage } from '../index.js'
 import { POSTS_PAGE } from '../routes.js'
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     const render = () => {
         let imageUrl = ''
-        // @TODO: Реализовать страницу добавления поста
         const appHtml = `
 
       <div class="page-container">
@@ -54,12 +53,10 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
             onAddPostClick({
                 description: replaceSymbols(uploadDescription.value),
                 imageUrl: imageUrl,
-                
             })
             goToPage(POSTS_PAGE)
         })
     }
 
     render()
-    
 }
