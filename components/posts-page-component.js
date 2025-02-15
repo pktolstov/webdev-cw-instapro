@@ -86,8 +86,7 @@ ${formatedCreatedAt} назад
             let status = posts.filter((post) => post.id === like)[0].isLiked
             putLike(like, status)
                 .then((data) => {
-                  data ? renewPosts({ data }) : ''
-                    
+                    data ? renewPosts({ data }) : ''
                 })
                 .finally(() => {
                     return renderPostsPageComponent({ appEl })
