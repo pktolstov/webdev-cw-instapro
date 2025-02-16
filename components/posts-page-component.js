@@ -1,7 +1,8 @@
-import { USER_POSTS_PAGE, POSTS_PAGE } from '../routes.js'
+import { USER_POSTS_PAGE} from '../routes.js'
+import {  replaceSymbols  } from '../helpers.js'
 import { renderHeaderComponent } from './header-component.js'
 import { renewPosts, posts, goToPage } from '../index.js'
-import { getPosts, putLike } from '../api.js'
+import { putLike } from '../api.js'
 import { formatDistanceToNow } from '../node_modules/date-fns/formatDistanceToNow.js'
 import { ru } from '../node_modules/date-fns/locale/ru.js'
 
@@ -18,7 +19,7 @@ export function renderPostsPageComponent({ appEl }) {
 <li class="post">
 <div class="post-header" data-user-id="${post.user.id}">
     <img src="${post.user.imageUrl}" class="post-header__user-image">
-    <p class="post-header__user-name">${post.user.name}</p>
+    <p class="post-header__user-name">${replaceSymbols(post.user.name)}</p>
 </div>
 <div class="post-image-container">
   <img class="post-image" src="${post.imageUrl}">
@@ -38,8 +39,8 @@ export function renderPostsPageComponent({ appEl }) {
             : `
       <strong id='likes-${post.id}'>${
                   post.likes.length === 1
-                      ? post.likes[0].name
-                      : `${post.likes[0].name} и еще ${post.likes.length - 1}`
+                      ? replaceSymbols(post.likes[0].name)
+                      : `${replaceSymbols(post.likes[0].name)} и еще ${post.likes.length - 1}`
               }</strong>
       `
     }
@@ -48,7 +49,7 @@ export function renderPostsPageComponent({ appEl }) {
   </p>
 </div>
 <p class="post-text">
-  <span class="user-name">${post.user.name}</span>
+  <span class="user-name">${replaceSymbols(post.user.name)}</span>
   ${post.description}
 </p>
 <p class="post-date">

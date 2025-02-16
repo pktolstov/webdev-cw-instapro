@@ -3,6 +3,7 @@ import { renderHeaderComponent } from './header-component.js'
 import { replaceSymbols } from '../helpers.js'
 import { goToPage } from '../index.js'
 import { POSTS_PAGE } from '../routes.js'
+import { renderPostsPageComponent } from './posts-page-component.js'
 export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
     const render = () => {
         let imageUrl = ''
@@ -54,7 +55,8 @@ export function renderAddPostPageComponent({ appEl, onAddPostClick }) {
                 description: replaceSymbols(uploadDescription.value),
                 imageUrl: imageUrl,
             })
-            goToPage(POSTS_PAGE)
+            renderPostsPageComponent({ appEl })
+            //goToPage(POSTS_PAGE)
         })
     }
 
